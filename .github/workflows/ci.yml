@@ -1,0 +1,87 @@
+name: CI & Quality Assurance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege: default read-only permissions for workflow
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Integrity & Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run Integrity & Security Test Suite
+        run: node test/verify_integrity.mjs
+
+  docker:
+    name: Docker Container Build & Smoke Test
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t yason-terraces:ci .
+
+      - name: Test Container Run & Health
+        run: |
+          docker run -d --name test-app -p 8080:80 yason-terraces:ci
+          sleep 3
+          curl --fail http://127.0.0.1:8080/ || exit 1
+          docker stop test-app
+
+  pages:
+    name: GitHub Pages Deploy
+    needs: [verify, docker]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    # Elevated permissions scoped strictly to Pages deployment job
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Stage Web Artifacts
+        run: |
+          mkdir -p _site
+          touch _site/.nojekyll
+          cp index.html _site/
+          mkdir -p _site/.github/assets
+          cp .github/assets/banner.svg _site/.github/assets/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
