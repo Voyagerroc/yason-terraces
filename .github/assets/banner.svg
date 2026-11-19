@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="300" viewBox="0 0 1280 300" role="img" aria-label="YASON TERRACES — Yason Burnu, Perşembe / Ordu">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#050C1A"/><stop offset="1" stop-color="#0B1830"/>
+ </linearGradient>
+ <radialGradient id="glow" cx="0.82" cy="0.4" r="0.6">
+  <stop offset="0" stop-color="#C9A45C" stop-opacity="0.16"/><stop offset="1" stop-color="#C9A45C" stop-opacity="0"/>
+ </radialGradient>
+</defs>
+<rect width="1280" height="300" fill="url(#bg)"/>
+<g opacity="0.05" stroke="#F4EFE4" stroke-width="1"><line x1="0" y1="0" x2="0" y2="300"/><line x1="64" y1="0" x2="64" y2="300"/><line x1="128" y1="0" x2="128" y2="300"/><line x1="192" y1="0" x2="192" y2="300"/><line x1="256" y1="0" x2="256" y2="300"/><line x1="320" y1="0" x2="320" y2="300"/><line x1="384" y1="0" x2="384" y2="300"/><line x1="448" y1="0" x2="448" y2="300"/><line x1="512" y1="0" x2="512" y2="300"/><line x1="576" y1="0" x2="576" y2="300"/><line x1="640" y1="0" x2="640" y2="300"/><line x1="704" y1="0" x2="704" y2="300"/><line x1="768" y1="0" x2="768" y2="300"/><line x1="832" y1="0" x2="832" y2="300"/><line x1="896" y1="0" x2="896" y2="300"/><line x1="960" y1="0" x2="960" y2="300"/><line x1="1024" y1="0" x2="1024" y2="300"/><line x1="1088" y1="0" x2="1088" y2="300"/><line x1="1152" y1="0" x2="1152" y2="300"/><line x1="1216" y1="0" x2="1216" y2="300"/><line x1="0" y1="0" x2="1280" y2="0"/><line x1="0" y1="64" x2="1280" y2="64"/><line x1="0" y1="128" x2="1280" y2="128"/><line x1="0" y1="192" x2="1280" y2="192"/><line x1="0" y1="256" x2="1280" y2="256"/></g>
+<rect width="1280" height="300" fill="url(#glow)"/>
+<g><circle cx="950" cy="52" r="2" fill="#F4EFE4" opacity="0.9"/><circle cx="1010" cy="84" r="1.5" fill="#F4EFE4" opacity="0.6"/><circle cx="1078" cy="40" r="2.4" fill="#F4EFE4" opacity="0.95"/><circle cx="1130" cy="96" r="1.6" fill="#F4EFE4" opacity="0.6"/><circle cx="1190" cy="60" r="2" fill="#F4EFE4" opacity="0.8"/><circle cx="1230" cy="120" r="1.4" fill="#F4EFE4" opacity="0.55"/><circle cx="1046" cy="130" r="1.8" fill="#F4EFE4" opacity="0.7"/><circle cx="908" cy="110" r="1.4" fill="#F4EFE4" opacity="0.5"/><circle cx="1160" cy="160" r="1.5" fill="#F4EFE4" opacity="0.5"/><g stroke="#C9A45C" stroke-width="5" fill="none" stroke-linejoin="round">
+      <path d="M960 252 L1040 118 L1120 252 Z"/><path d="M1040 118 L1040 252"/>
+      <path d="M1078 252 L1146 148 L1214 252 Z" opacity="0.55"/></g>
+      <path d="M1035 74 l5 12 12 2 -9 9 2 13 -10 -6 -11 6 2 -13 -9 -9 13 -2 Z" fill="#C9A45C"/>
+      <line x1="880" y1="252" x2="1258" y2="252" stroke="#C9A45C" stroke-width="3" opacity="0.8"/></g>
+<text x="72" y="96" font-family="'Courier New', monospace" font-size="15" letter-spacing="6" fill="#C9A45C" opacity="0.9">YASON BURNU · PERŞEMBE / ORDU</text>
+<text x="70" y="164" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="bold" fill="#F4EFE4">YASON TERRACES</text>
+<text x="72" y="206" font-family="'Segoe UI', Arial, sans-serif" font-size="20" fill="#F4EFE4" opacity="0.72">Yason Burnu yamaçlarında, denizin üstünde — 15 panoramik teras bungalov</text>
+<rect x="72" y="232" width="120" height="3" fill="#C9A45C"/>
+<rect x="0" y="296" width="1280" height="4" fill="#C9A45C" opacity="0.85"/>
+</svg>
