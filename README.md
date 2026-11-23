@@ -1,94 +1,88 @@
 <p align="center">
   <img src=".github/assets/banner.svg" alt="YASON TERRACES, Yason Burnu, Perşembe / Ordu" width="100%"><br>
-  <img src="docs/assets/preview-desktop.webp" alt="Sitenin açılış ekranı: başlık, bungalov rakamları ve havuzlu bir bungalovun render görseli." width="100%">
+  <img src="docs/assets/preview-desktop.webp" alt="Landing screen of the site: title, bungalow figures and a rendered bungalow with a pool." width="100%">
 </p>
 
-A single-file showcase website for a 15-bungalow architectural concept at Cape Jason (Yason Burnu), Ordu, with an nginx container for deployment.
+# YASON TERRACES
 
-Ordu Perşembe'deki Yason Burnu yamaçları için tasarlanan 15 bungalovluk konaklama konseptinin tek dosyalık vitrin sitesi. Kendi içinde eksiksiz çalışır; isterseniz nginx konteyneriyle yayınlanır.
+**A one-page showcase website that presents a planned 15-bungalow holiday retreat on the slopes of Cape Jason (Yason Burnu), Ordu, Turkey.**
 
-**Durum:** konsept vitrini · MIT · sürüm etiketi yok. Görseller render'dır, tamamlanmış bir tesisin fotoğrafı değildir. Canlı önizleme GitHub Pages'te yayında.
+> **Türkçe özet:** Ordu Perşembe'deki Yason Burnu yamaçları için tasarlanan 15 bungalovluk konaklama konseptinin tek dosyalık vitrin sitesidir. Dosya tarayıcıda doğrudan açılır; isterseniz nginx konteyneriyle yayınlanır. Görseller render'dır, tamamlanmış bir tesisin fotoğrafı değildir.
 
 [![CI status](https://github.com/Voyagerroc/yason-terraces/actions/workflows/ci.yml/badge.svg)](https://github.com/Voyagerroc/yason-terraces/actions/workflows/ci.yml)
 
-[Canlı önizleme](https://voyagerroc.github.io/yason-terraces/)
+**Status:** client showcase / concept presentation. No release tags. All images are architectural renders, not photos of a finished property. A live preview is published on [GitHub Pages](https://voyagerroc.github.io/yason-terraces/).
 
-## Neyi gösterir
+## What it does
 
-- **15 bağımsız bungalov**, üç teras kademesinde ve beş blokta. Hepsi aynı plan tipindedir: 40 m² alt kat, 15 m² üst kat galeri, 180 m² özel bahçe, 22 m² havuz, 2 m² veranda.
-- **Yerleşim planı, konum ve galeri**: Çaytepe / Perşembe / Ordu konumu, ünite ünite plan ve render görselleri. Video bölümü yer tutucudur; tanıtım filmi henüz yüklenmedi.
-- **Tek dosya**: Görseller, yazı tipleri ve betikler `index.html` içine gömülüdür. Sayfada form yoktur; iletişim düğmeleri sayfanın iletişim bölümüne gider.
+- Presents **15 independent bungalows** across three terrace levels and five blocks, all of one plan type: 40 m² ground floor, 15 m² upper gallery, 180 m² private garden, 22 m² pool and 2 m² veranda.
+- Shows the site plan, location (Çaytepe / Perşembe / Ordu), unit-by-unit plans and a render gallery.
+- Works as a **single self-contained file**: images, fonts and scripts are embedded in `index.html`, so it opens offline with no server.
+- Has no forms; contact buttons jump to the page's contact section. The video section is a placeholder (no film uploaded yet).
 
-Önizleme görüntüsü `index.html` dosyasının tarayıcıda açılmasıyla alınmıştır; gerçek mekân fotoğrafı veya tamamlanmış bir tesisin kanıtı değildir. GitHub Pages önizlemesi siteyi gösterir; nginx konteynerine ait sunucu ayarlarını uyguladığı varsayılmaz.
+## Who it is for
 
-## Yerelde çalıştırma
+- **Prospective guests, investors and partners** who want a quick visual idea of the planned retreat.
+- **The client and project team**, as a shareable presentation of the concept.
+- **Developers** looking for an example of a single-file static site with a hardened nginx container.
 
-`index.html` tüm varlıkları içinde taşıdığından sunucu kurmadan tarayıcıda açılır.
+## For developers
 
-```powershell
-# Windows PowerShell
-Invoke-Item .\index.html
-```
+**Tech stack:** a single static HTML file (embedded assets), nginx (`nginx:1.31-alpine`) in Docker, a Node.js 24 integrity test, GitHub Actions CI with GitHub Pages deployment.
+
+### Repo layout
+
+| Path | Purpose |
+|---|---|
+| `index.html` | The self-contained YASON TERRACES presentation |
+| `nginx.conf.template` | Security headers, compression and dynamic port template |
+| `Dockerfile` | nginx Alpine container definition with `HEALTHCHECK` |
+| `test/verify_integrity.mjs` | Integrity, branding and configuration checks |
+| `.github/workflows/ci.yml` | CI: integrity test, Docker build and smoke test, Pages deploy from `main` |
+| `docs/assets/preview-desktop.webp` | Browser screenshot of the landing screen |
+
+### Run locally
+
+`index.html` carries all its assets, so just open it in a browser:
 
 ```sh
-# macOS
-open index.html
-
-# Linux
-xdg-open index.html
+open index.html          # macOS
+xdg-open index.html      # Linux
 ```
 
-Docker ile (`localhost:8080`):
+```powershell
+Invoke-Item .\index.html # Windows PowerShell
+```
+
+With Docker (serves on `localhost:8080`):
 
 ```sh
 docker build -t yason-terraces .
 docker run -d --name yason-terraces -p 8080:80 yason-terraces
 ```
 
-## Denetimler
+The container reads the platform-provided `$PORT` (default `80`).
 
-Node.js 24 ile statik bütünlük ve yapılandırma kontrolleri tek komutla çalışır. Bu komut canlı güvenlik taraması değildir:
+### Checks
+
+Static integrity and configuration checks run with Node.js 24 (this is not a live security scan):
 
 ```sh
 node test/verify_integrity.mjs
 ```
 
-Test şunları denetler:
+It verifies that `index.html` exists and parses its embedded manifest and template as JSON, that the `YASON TERRACES` brand is present and no trace of the old brand name remains, the nginx security headers and hidden-file blocking rule, the pinned Alpine base image and `HEALTHCHECK` in the Dockerfile, and the branding in `banner.svg` and `LICENSE`. CI runs the same test, builds and starts the Docker image, checks the HTTP response, and publishes to GitHub Pages on `main`.
 
-- `index.html` paket varlığı ve boyutu, gömülü manifest ile şablonun JSON olarak ayrışması.
-- `YASON TERRACES` marka adının varlığı ve eski marka adının (`ASTERA`) hiçbir kalıntısının olmaması.
-- Nginx güvenlik başlıkları ve gizli dosya engelleme kuralı.
-- Dockerfile'da sabitlenmiş Alpine temel imajı ve `HEALTHCHECK`.
-- `banner.svg` markası ve `LICENSE` Voyagerroc aidiyeti.
+### Hardening
 
-CI aynı testi çalıştırır, Docker imajını derleyip başlatır ve HTTP yanıtını kontrol eder; `main` dalında GitHub Pages'e yayınlar. Katkı hazırlığı için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına bakın.
+`nginx.conf.template` accepts only `GET`, `HEAD` and `OPTIONS`, rejects dot-prefixed paths, hides the server version and adds security headers (CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, COOP, CORP). Note that the CSP still allows `unsafe-inline`/`unsafe-eval`. This is source configuration, not an independent security rating, a verified live deployment or a legal compliance certificate; the GitHub Pages preview does not apply these nginx settings.
 
-## Sıkılaştırma
+## Links
 
-`nginx.conf.template` yalnızca `GET`, `HEAD` ve `OPTIONS` isteklerini kabul eder, nokta ile başlayan yolları reddeder, sürüm bilgisini kapatır ve güvenlik başlıklarını ekler (CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, COOP ve CORP). `Dockerfile` `nginx:1.31-alpine` tabanını kullanır, `HEALTHCHECK` tanımlar ve platformun verdiği `$PORT` değerini okur (varsayılan `80`). Bunlar kaynak yapılandırmasıdır; bağımsız bir güvenlik derecelendirmesi, canlı sunucu doğrulaması veya hukuki uygunluk belgesi değildir.
-
-| Kanıt alanı | Depodaki kontrol | Ayrı doğrulama gereken |
-| --- | --- | --- |
-| Kaynak | Bütünlük testi dosyaları, JSON'u ve beklenen ayar metinlerini denetler. | Başlıkların canlı sağlayıcıda uygulanması |
-| Konteyner | CI Docker imajını oluşturur, başlatır ve HTTP yanıtını kontrol eder. | Üretim TLS, erişim/log ve sağlayıcı ayarları |
-| Arayüz | Gerçek tarayıcı önizlemesi mevcuttur. | Klavye/ekran okuyucu kabulü ve cihaz performansı |
-| Gizlilik | Bu kaynak kaydı uygulanan teknik sınırları açıklar. | Fiilî veri akışı, saklama/aktarım ve hukuki değerlendirme |
-
-Özellikle CSP içinde `unsafe-inline`/`unsafe-eval` ve izin verilen kaynaklar bulunur; başlığın varlığı tüm betik risklerini ortadan kaldırmaz. Şüpheli açıkları [SECURITY.md](SECURITY.md) üzerinden özel olarak bildirin.
-
-## Depo yapısı
-
-| Yol | Açıklama |
-|---|---|
-| `index.html` | Kendi kendine yeten tek dosyalık YASON TERRACES sunumu |
-| `nginx.conf.template` | Güvenlik başlıkları, sıkıştırma ve dinamik port şablonu |
-| `Dockerfile` | nginx Alpine konteyner tanımı |
-| `test/verify_integrity.mjs` | Bütünlük, marka ve yapılandırma denetimi |
-| `.github/workflows/ci.yml` | CI: bütünlük testi, Docker derleme ve duman testi, `main` için Pages yayını |
-| `.github/assets/banner.svg` | Başlık afişi |
-| `docs/assets/preview-desktop.webp` | `index.html` açılış ekranının tarayıcı görüntüsü |
-| `LICENSE` | MIT Lisansı, Voyagerroc / Erol Tasci |
+- Live preview: <https://voyagerroc.github.io/yason-terraces/>
+- [CONTRIBUTING.md](CONTRIBUTING.md) · [SECURITY.md](SECURITY.md) (report suspected vulnerabilities privately)
+- License: [MIT](LICENSE)
 
 ---
 
-Erol Taşcı, Voyagerroc Technologies · [voyagerroctechnologies.com](https://voyagerroctechnologies.com/)
+Built by Voyagerroc Technologies · [voyagerroctechnologies.com](https://voyagerroctechnologies.com/)
